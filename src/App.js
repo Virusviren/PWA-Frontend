@@ -2,6 +2,7 @@ import Home from "./routes/home/Home";
 import About from "./routes/about/About";
 import Admin from "./routes/admin/Admin";
 import Profile from "./routes/profile/Profile";
+import Cart from "./routes/cart/Cart";
 import PageNotFound from "./routes/404/PageNotFound";
 import { Switch, Route } from "react-router-dom";
 
@@ -16,6 +17,9 @@ function App() {
       </Route>
       <Route exact path="/admin">
         <Admin />
+      </Route>
+      <Route exact path="/cart">
+        <Cart />
       </Route>
       <Route exact path="/">
         <Home />

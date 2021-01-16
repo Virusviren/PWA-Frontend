@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   // Development ONLY!!!
-  let isLoggedIn = true;
-  let role = "admin";
+  let isLoggedIn = false;
+  let role = "user";
 
   // Guest navabar items
   const mainItems = [{ label: "Home" }, { label: "Cart" }, { label: "About" }];
@@ -37,7 +37,10 @@ const Navbar = () => {
               </Link>
             )}
             {item.label === "Cart" && (
-              <Link to="#!" style={{ textDecoration: "none", color: "white" }}>
+              <Link
+                to="/cart"
+                style={{ textDecoration: "none", color: "white" }}
+              >
                 Cart (0)
               </Link>
             )}
@@ -91,7 +94,10 @@ const Navbar = () => {
               </Link>
             )}
             {item.label === "Cart" && (
-              <Link to="#!" style={{ textDecoration: "none", color: "white" }}>
+              <Link
+                to="/cart"
+                style={{ textDecoration: "none", color: "white" }}
+              >
                 Cart (0)
               </Link>
             )}
@@ -145,8 +151,11 @@ const Navbar = () => {
               </Link>
             )}
             {item.label === "Cart" && (
-              <Link to="#!" style={{ textDecoration: "none", color: "white" }}>
-                Cart (0)
+              <Link
+                to="/cart"
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                Cart (3)
               </Link>
             )}
             {item.label === "Login" && (
