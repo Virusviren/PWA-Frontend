@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   // Development ONLY!!!
   let isLoggedIn = true;
+  let role = "admin";
 
   // Guest navabar items
   const mainItems = [{ label: "Home" }, { label: "Cart" }, { label: "About" }];
@@ -15,7 +16,7 @@ const Navbar = () => {
   // Logged in navabar items for admin
   const adminItems = [{ label: "Manage Insurances" }, { label: "Logout" }];
 
-  if (isLoggedIn) {
+  if (isLoggedIn && role === "user") {
     return (
       <AppNavBar
         overrides={{
@@ -64,6 +65,60 @@ const Navbar = () => {
           </Fragment>
         )}
         userItems={userItems}
+        username="John Cramer"
+        usernameSubtitle="john.cramer@gmail.com"
+        userImgUrl="https://source.unsplash.com/user/erondu/700x400"
+      />
+    );
+  } else if (isLoggedIn && role === "admin") {
+    return (
+      <AppNavBar
+        overrides={{
+          Root: {
+            style: { outline: "#4a4cb4 solid", backgroundColor: "#4a4cb4" },
+          },
+          AppName: {
+            style: { color: "white" },
+          },
+        }}
+        title="Will's Insurance LLC"
+        mainItems={mainItems}
+        mapItemToNode={(item) => (
+          <Fragment>
+            {item.label === "Home" && (
+              <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+                Home
+              </Link>
+            )}
+            {item.label === "Cart" && (
+              <Link to="#!" style={{ textDecoration: "none", color: "white" }}>
+                Cart (0)
+              </Link>
+            )}
+            {item.label === "About" && (
+              <Link
+                to="/about"
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                About
+              </Link>
+            )}
+            {item.label === "Manage Insurances" && (
+              <Link
+                to="/admin"
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                Manage Insurances
+              </Link>
+            )}
+            {item.label === "Logout" && (
+              <Link to="#!" style={{ textDecoration: "none", color: "black" }}>
+                Logout
+              </Link>
+            )}
+          </Fragment>
+        )}
+        userItems={adminItems}
         username="John Cramer"
         usernameSubtitle="john.cramer@gmail.com"
         userImgUrl="https://source.unsplash.com/user/erondu/700x400"

@@ -7,7 +7,7 @@ const Profile = () => {
     <div>
       <h1 style={{ margin: "40px 50px 30px" }}>Previous Purchases</h1>
       <h2 style={{ margin: "40px 50px 30px" }}>
-        All your previous purchases are shown below.
+        All your previous purchases are shown in the table below.
       </h2>
       <div style={{ margin: "0 50px 30px" }}>
         <Notification
