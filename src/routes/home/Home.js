@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { Tabs, Tab, FILL } from "baseui/tabs-motion";
 import { Pagination } from "baseui/pagination";
 import InsuranceList from "./InsuranceList";
-import healthInsuranceSVG from "../../images/health insurance.svg";
-import lifeInsuranceSVG from "../../images/life insurance.svg";
-import travelInsuranceSVG from "../../images/travel insurance.svg";
 
 const Home = () => {
   const [activeKey, setActiveKey] = useState(0);
@@ -23,8 +20,8 @@ const Home = () => {
           overrides={{
             TabHighlight: {
               style: ({ $theme }) => ({
-                outline: `${$theme.colors.backgroundAccent}`,
-                backgroundColor: $theme.colors.backgroundAccent,
+                outline: "#4a4cb4",
+                backgroundColor: "#4a4cb4",
               }),
             },
           }}

@@ -8,9 +8,9 @@ import {
   SIZE,
   ROLE,
 } from "baseui/modal";
-import { KIND as ButtonKind, SHAPE } from "baseui/button";
+import { SHAPE } from "baseui/button";
 
-const InsuranceDetails = ({ isOpen, setIsOpen }) => {
+const PurchaseInfo = ({ isOpen, setIsOpen }) => {
   return (
     <Modal
       onClose={() => setIsOpen(false)}
@@ -24,22 +24,22 @@ const InsuranceDetails = ({ isOpen, setIsOpen }) => {
       <ModalHeader>Company Name</ModalHeader>
       <ModalBody>
         <h3>Type : Health Insurance</h3>
-        <h3>Posted : 2 months ago</h3>
         <p style={{ margin: "25px auto" }}></p>
-        <h3>Insurance name</h3>
-        <p>Insurance details</p>
-        <h3>Price - 90 PLN per year</h3>
+        <h3>Purchase Date : 12th January, 2021</h3>
+        <h3>Transaction ID : 9988997766</h3>
+        <h3>Insurance Number : 9988997766</h3>
+        <p style={{ margin: "25px auto" }}></p>
+        <h3>Insurer's details : </h3>
+        <h4>Full Name</h4>
+        <h4>Passport Number</h4>
+        <h4>Age, Gender</h4>
+        <h4>Address</h4>
+        <p style={{ margin: "25px auto" }}></p>
+        <h3>Valid till : 12th January, 2022</h3>
+        <p style={{ margin: "25px auto" }}></p>
+        <h3>Amount Paid : 90 PLN</h3>
       </ModalBody>
       <ModalFooter>
-        <ModalButton
-          kind={ButtonKind.tertiary}
-          shape={SHAPE.pill}
-          onClick={() => {
-            setIsOpen(false);
-          }}
-        >
-          Close
-        </ModalButton>
         <ModalButton
           overrides={{
             BaseButton: {
@@ -50,12 +50,15 @@ const InsuranceDetails = ({ isOpen, setIsOpen }) => {
             },
           }}
           shape={SHAPE.pill}
+          onClick={() => {
+            setIsOpen(false);
+          }}
         >
-          Add to cart
+          Close
         </ModalButton>
       </ModalFooter>
     </Modal>
   );
 };
 
-export default InsuranceDetails;
+export default PurchaseInfo;

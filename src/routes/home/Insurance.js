@@ -23,7 +23,7 @@ const Insurance = () => {
               style: {
                 width: "100%",
                 color: "white",
-                backgroundColor: "#1E54B7",
+                backgroundColor: "#4a4cb4",
               },
             },
           }}
