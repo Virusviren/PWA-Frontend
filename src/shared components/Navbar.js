@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   // Development ONLY!!!
   let isLoggedIn = false;
-  let role = "user";
+  let role = "admin";
 
   // Guest navabar items
   const mainItems = [{ label: "Home" }, { label: "Cart" }, { label: "About" }];
@@ -125,8 +125,8 @@ const Navbar = () => {
           </Fragment>
         )}
         userItems={adminItems}
-        username="John Cramer"
-        usernameSubtitle="john.cramer@gmail.com"
+        username="Rocky Balboa"
+        usernameSubtitle="rocky.balboa@gmail.com"
         userImgUrl="https://source.unsplash.com/user/erondu/700x400"
       />
     );
