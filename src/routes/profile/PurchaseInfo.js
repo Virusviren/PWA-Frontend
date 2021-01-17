@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
   ModalButton,
@@ -9,8 +8,9 @@ import {
   ROLE,
 } from "baseui/modal";
 import { SHAPE } from "baseui/button";
+import { Grid, Cell } from "baseui/layout-grid";
 
-const PurchaseInfo = ({ isOpen, setIsOpen }) => {
+const PurchaseInfo = ({ isOpen, setIsOpen, purchase }) => {
   return (
     <Modal
       onClose={() => setIsOpen(false)}
@@ -18,26 +18,75 @@ const PurchaseInfo = ({ isOpen, setIsOpen }) => {
       isOpen={isOpen}
       animate
       autoFocus
-      size={SIZE.default}
+      size={SIZE.auto}
       role={ROLE.dialog}
     >
-      <ModalHeader>Company Name</ModalHeader>
       <ModalBody>
-        <h3>Type : Health Insurance</h3>
-        <p style={{ margin: "25px auto" }}></p>
-        <h3>Purchase Date : 12th January, 2021</h3>
-        <h3>Transaction ID : 9988997766</h3>
-        <h3>Insurance Number : 9988997766</h3>
-        <p style={{ margin: "25px auto" }}></p>
-        <h3>Insurer's details : </h3>
-        <h4>Full Name</h4>
-        <h4>Passport Number</h4>
-        <h4>Age, Gender</h4>
-        <h4>Address</h4>
-        <p style={{ margin: "25px auto" }}></p>
-        <h3>Valid till : 12th January, 2022</h3>
-        <p style={{ margin: "25px auto" }}></p>
-        <h3>Amount Paid : 90 PLN</h3>
+        <Grid>
+          <Cell span={12} gridGaps={6}>
+            <h2>Insurance Details</h2>
+          </Cell>
+          <Cell span={6} gridGaps={16}>
+            <strong>Company Name :</strong>
+          </Cell>
+          <Cell span={6} gridGaps={16}>
+            <strong>Insurance Type :</strong> Life Insurance
+          </Cell>
+          <Cell span={3} gridGaps={24}>
+            <strong>Purchased On :</strong> 12th January, 2021
+          </Cell>
+          <Cell span={3} gridGaps={24}>
+            <strong>Valid Till :</strong> 12th January, 2022
+          </Cell>
+          <Cell span={3} gridGaps={24}>
+            <strong>Transaction ID :</strong>{" "}
+          </Cell>
+          <Cell span={3} gridGaps={24}>
+            <strong>Insurance Number :</strong>{" "}
+          </Cell>
+          <Cell span={12} gridGaps={6}>
+            <h2>Insurer's Details</h2>
+          </Cell>
+          <Cell span={3} gridGaps={24}>
+            <strong>Full Name :</strong>{" "}
+          </Cell>
+          <Cell span={3} gridGaps={24}>
+            <strong>Mobile Number :</strong>{" "}
+          </Cell>
+          <Cell span={3} gridGaps={24}>
+            <strong>Passport Number :</strong>{" "}
+          </Cell>
+          <Cell span={1} gridGaps={24}>
+            <strong>Age :</strong>{" "}
+          </Cell>
+          <Cell span={2} gridGaps={24}>
+            <strong>Gender :</strong>{" "}
+          </Cell>
+          <Cell span={12} gridGaps={6}>
+            <h2>Insurer's Address</h2>
+          </Cell>
+          <Cell span={2} gridGaps={24}>
+            <strong>Street Name :</strong>{" "}
+          </Cell>
+          <Cell span={2} gridGaps={24}>
+            <strong>Building Number :</strong>{" "}
+          </Cell>
+          <Cell span={2} gridGaps={24}>
+            <strong>Apartment Number :</strong>{" "}
+          </Cell>
+          <Cell span={2} gridGaps={24}>
+            <strong>Postal Code :</strong>{" "}
+          </Cell>
+          <Cell span={2} gridGaps={24}>
+            <strong>City :</strong>{" "}
+          </Cell>
+          <Cell span={2} gridGaps={24}>
+            <strong>Region :</strong>{" "}
+          </Cell>
+          <Cell span={12} gridGaps={6}>
+            <h2>Amount Paid : 99 PLN</h2>
+          </Cell>
+        </Grid>
       </ModalBody>
       <ModalFooter>
         <ModalButton

@@ -13,7 +13,7 @@ const About = () => {
         need.
       </h2>
       <h2 style={{ margin: "0 50px 65px" }}>
-        Visit our homepage buy your very first insurance online!
+        Visit our homepage and buy your very first insurance online!
       </h2>
     </div>
   );

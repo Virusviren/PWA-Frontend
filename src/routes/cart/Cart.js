@@ -6,7 +6,7 @@ const Cart = () => {
   return (
     <div>
       <h1 style={{ margin: "40px 50px 30px" }}>Shopping Cart</h1>
-      <div style={{ margin: "40px 50px 30px" }}>
+      {/* <div style={{ margin: "40px 50px 30px" }}>
         <Notification
           overrides={{
             Body: { style: { width: "auto" } },
@@ -14,7 +14,7 @@ const Cart = () => {
         >
           Information : There are no items in your shopping cart!
         </Notification>
-      </div>
+      </div> */}
       <div style={{ margin: "40px 50px 30px" }}>
         <CartItems />
       </div>

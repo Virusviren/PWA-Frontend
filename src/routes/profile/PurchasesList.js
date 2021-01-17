@@ -1,102 +1,57 @@
 import React, { useState, Fragment } from "react";
-import { Table } from "baseui/table-semantic";
+import { TableBuilder, TableBuilderColumn } from "baseui/table-semantic";
 import { Button, SHAPE, SIZE } from "baseui/button";
 import PurchaseInfo from "./PurchaseInfo";
+
+import purchases from "../../fake json/profilepage";
 
 const PurchasesList = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const COLUMNS = [
-    "Name",
-    "Type",
-    "Company",
-    "Price (PLN)",
-    "Purchase Date",
-    "Details",
-  ];
-
-  const DATA = [
-    [
-      "Sarah Brown",
-      31,
-      "100 Broadway St., New York City, New York",
-      90,
-      "10th January, 2021",
-      <Button
-        shape={SHAPE.pill}
-        size={SIZE.mini}
-        overrides={{
-          BaseButton: {
-            style: {
-              width: "100%",
-              color: "white",
-              backgroundColor: "#4a4cb4",
-            },
-          },
-        }}
-        onClick={() => {
-          setIsOpen(true);
-        }}
-      >
-        Details
-      </Button>,
-    ],
-    [
-      "Jane Smith",
-      32,
-      "100 Market St., San Francisco, California",
-      90,
-      "10th January, 2021",
-      <Button
-        shape={SHAPE.pill}
-        size={SIZE.mini}
-        overrides={{
-          BaseButton: {
-            style: {
-              width: "100%",
-              color: "white",
-              backgroundColor: "#4a4cb4",
-            },
-          },
-        }}
-        onClick={() => {
-          setIsOpen(true);
-        }}
-      >
-        Details
-      </Button>,
-    ],
-    [
-      "Joe Black",
-      33,
-      "100 Macquarie St., Sydney, Australia",
-      90,
-      "10th January, 2021",
-      <Button
-        shape={SHAPE.pill}
-        size={SIZE.mini}
-        overrides={{
-          BaseButton: {
-            style: {
-              width: "100%",
-              color: "white",
-              backgroundColor: "#4a4cb4",
-            },
-          },
-        }}
-        onClick={() => {
-          setIsOpen(true);
-        }}
-      >
-        Details
-      </Button>,
-    ],
-  ];
+  const DATA = purchases;
 
   return (
     <Fragment>
-      <Table columns={COLUMNS} data={DATA} />
-      <PurchaseInfo isOpen={isOpen} setIsOpen={setIsOpen} />
+      <TableBuilder data={DATA}>
+        <TableBuilderColumn header="Serial No.">
+          {(row) => row.serialNumber}
+        </TableBuilderColumn>
+        <TableBuilderColumn header="Insurance Name">
+          {(row) => row.insuranceName}
+        </TableBuilderColumn>
+        <TableBuilderColumn header="Insurance Type">
+          {(row) => row.insuranceType}
+        </TableBuilderColumn>
+        <TableBuilderColumn header="Price (PLN)">
+          {(row) => row.price}
+        </TableBuilderColumn>
+        <TableBuilderColumn header="Purchase Date">
+          {(row) => row.purchasedOn}
+        </TableBuilderColumn>
+        <TableBuilderColumn header="Details">
+          {(row) => (
+            <Button
+              overrides={{
+                BaseButton: {
+                  style: {
+                    color: "white",
+                    backgroundColor: "#4a4cb4",
+                  },
+                },
+              }}
+              shape={SHAPE.pill}
+              size={SIZE.compact}
+              style={{ margin: "0 20px" }}
+              onClick={() => {
+                setIsOpen(true);
+              }}
+            >
+              Details
+            </Button>
+          )}
+        </TableBuilderColumn>
+      </TableBuilder>
+      <PurchaseInfo isOpen={isOpen} setIsOpen={setIsOpen} purchase={""} />
     </Fragment>
   );
 };

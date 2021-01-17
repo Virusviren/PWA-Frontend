@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   // Development ONLY!!!
-  let isLoggedIn = false;
-  let role = "admin";
+  let isLoggedIn = true;
+  let role = "user";
 
   // Guest navabar items
   const mainItems = [{ label: "Home" }, { label: "Cart" }, { label: "About" }];

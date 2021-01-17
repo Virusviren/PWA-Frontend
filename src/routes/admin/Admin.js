@@ -3,6 +3,7 @@ import { Notification } from "baseui/notification";
 import AllInsurances from "./AllInsurances";
 import { Button, SHAPE, SIZE } from "baseui/button";
 import { Pagination } from "baseui/pagination";
+import { Grid, Cell } from "baseui/layout-grid";
 import AddNewInsurance from "./AddNewInsurance";
 
 const Admin = () => {
@@ -12,11 +13,28 @@ const Admin = () => {
 
   return (
     <div>
-      <h1 style={{ margin: "40px 50px 30px" }}>Manage Insurances</h1>
+      <Grid
+        gridGutters={0}
+        gridMargins={0}
+        overrides={{
+          Grid: {
+            style: { margin: "0 50px" },
+          },
+        }}
+      >
+        <Cell span={8}>
+          <h1 style={{ margin: "40px 0 0" }}>Manage Insurances</h1>
+        </Cell>
+        <Cell span={4}>
+          <p style={{ margin: "40px 0 0", textAlign: "right" }}>
+            Last login : Yesterday, 9:30 PM
+          </p>
+        </Cell>
+      </Grid>
       <h2 style={{ margin: "40px 50px 30px" }}>
         Manage all your insurances from the table below.
       </h2>
-      <div style={{ margin: "0 50px 30px" }}>
+      {/* <div style={{ margin: "0 50px 30px" }}>
         <Notification
           overrides={{
             Body: { style: { width: "auto" } },
@@ -25,7 +43,7 @@ const Admin = () => {
           Information : There are no insurances to show. Once you add new
           insurances they will be shown below.
         </Notification>
-      </div>
+      </div> */}
       <div style={{ margin: "0 50px 30px" }}>
         <Button
           shape={SHAPE.pill}

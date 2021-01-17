@@ -10,7 +10,7 @@ import {
 } from "baseui/modal";
 import { KIND as ButtonKind, SHAPE } from "baseui/button";
 
-const InsuranceDetails = ({ isOpen, setIsOpen }) => {
+const InsuranceDetails = ({ isOpen, setIsOpen, insurance }) => {
   return (
     <Modal
       onClose={() => setIsOpen(false)}
@@ -21,14 +21,15 @@ const InsuranceDetails = ({ isOpen, setIsOpen }) => {
       size={SIZE.default}
       role={ROLE.dialog}
     >
-      <ModalHeader>Company Name</ModalHeader>
+      <ModalHeader>{insurance.companyName}</ModalHeader>
       <ModalBody>
         <h3>Type : Health Insurance</h3>
-        <h3>Posted : 2 months ago</h3>
+        <h3>Posted : {insurance.postedOn}</h3>
         <p style={{ margin: "25px auto" }}></p>
-        <h3>Insurance name</h3>
-        <p>Insurance details</p>
-        <h3>Price - 90 PLN per year</h3>
+        <h3>Insurance Name : {insurance.insuranceName}</h3>
+        <h3>Details : {insurance.insuranceDetails}</h3>
+        <p style={{ margin: "25px auto" }}></p>
+        <h3>Price : {insurance.price} PLN per year</h3>
       </ModalBody>
       <ModalFooter>
         <ModalButton

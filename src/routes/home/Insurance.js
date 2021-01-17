@@ -3,18 +3,30 @@ import { Card, StyledBody, StyledAction } from "baseui/card";
 import { Button, SHAPE } from "baseui/button";
 import InsuranceDetails from "./InsuranceDetails";
 
-const Insurance = () => {
+const Insurance = ({ insurance }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Card
-      overrides={{ Root: { style: { width: "auto", margin: "25px auto" } } }}
-      headerImage={"https://source.unsplash.com/user/erondu/700x400"}
-      title="Company Name"
+      overrides={{
+        Root: {
+          style: { width: "auto", margin: "25px auto", height: "auto" },
+        },
+        HeaderImage: {
+          style: { objectFit: "cover", height: "200px" },
+        },
+        Title: {
+          style: { height: "70px" },
+        },
+      }}
+      headerImage={insurance.imageURL}
+      title={insurance.companyName}
     >
       <StyledBody>
-        <p>Insurance name</p>
-        <p>Price - 90 PLN per year</p>
+        <p style={{ height: "75px" }}>{insurance.insuranceName}</p>
+        <p>
+          Price : <strong>{insurance.price} PLN</strong> per year
+        </p>
       </StyledBody>
       <StyledAction>
         <Button
@@ -35,7 +47,11 @@ const Insurance = () => {
           Details
         </Button>
       </StyledAction>
-      <InsuranceDetails isOpen={isOpen} setIsOpen={setIsOpen} />
+      <InsuranceDetails
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        insurance={insurance}
+      />
     </Card>
   );
 };
