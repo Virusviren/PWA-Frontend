@@ -2,3 +2,8 @@
 .ci {
   color: white !important;
 }
+
+/* App navbar user profile info tile width change */
+ul.fl.dp.c9.cb.c8.ds.ho.hp.fy.fz.fh.fi.fk.fj.hi.hq.hr.hs {
+  width: 295px !important;
+}
