@@ -3,6 +3,7 @@ import PurchasesList from "./PurchasesList";
 import { Notification } from "baseui/notification";
 import { Pagination } from "baseui/pagination";
 import { Grid, Cell } from "baseui/layout-grid";
+import moment from "moment";
 import admins from "../../utilities/admins";
 import firebase from "firebase";
 
@@ -28,7 +29,10 @@ const Profile = () => {
           </Cell>
           <Cell span={4}>
             <p style={{ margin: "40px 0 0", textAlign: "right" }}>
-              Last login : Today, 8:08 AM
+              Last login :{" "}
+              {moment(user.metadata.lastSignInTime).format(
+                "MMMM Do, YYYY, h:mm A"
+              )}
             </p>
           </Cell>
         </Grid>

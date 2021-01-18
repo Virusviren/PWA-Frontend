@@ -5,6 +5,7 @@ import { Button, SHAPE, SIZE } from "baseui/button";
 import { Pagination } from "baseui/pagination";
 import { Grid, Cell } from "baseui/layout-grid";
 import AddNewInsurance from "./AddNewInsurance";
+import moment from "moment";
 import admins from "../../utilities/admins";
 import firebase from "firebase";
 
@@ -14,6 +15,8 @@ const Admin = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [isOpen, setIsOpen] = useState(false);
+
+  console.log(user);
 
   if (user && admins.includes(user.email)) {
     return (
@@ -32,7 +35,10 @@ const Admin = () => {
           </Cell>
           <Cell span={4}>
             <p style={{ margin: "40px 0 0", textAlign: "right" }}>
-              Last login : Yesterday, 9:30 PM
+              Last login :{" "}
+              {moment(user.metadata.lastSignInTime).format(
+                "MMMM Do, YYYY, h:mm A"
+              )}
             </p>
           </Cell>
         </Grid>
