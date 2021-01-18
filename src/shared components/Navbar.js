@@ -1,14 +1,63 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { AppNavBar } from "baseui/app-nav-bar";
 import { Link } from "react-router-dom";
+import firebase from "firebase";
 
 const Navbar = () => {
-  // Development ONLY!!!
-  let isLoggedIn = false;
-  let role = "admin";
+  const [user, setUser] = useState(null);
+
+  const provider = new firebase.auth.GoogleAuthProvider();
+
+  const loginWithGoogle = () => {
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then((result) => {
+        setUser(result.user);
+      })
+      .catch((error) => {});
+  };
+
+  const logout = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        // Sign out successful
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
+
+  // Firebase user observer
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+  }, []);
+
+  // Admins
+  const admins = ["xd@gmail.com"];
 
   // Guest navabar items
-  const mainItems = [{ label: "Home" }, { label: "Cart" }, { label: "About" }];
+  const mainItems = [
+    { label: "Home" },
+    { label: "Login" },
+    { label: "Cart" },
+    { label: "About" },
+  ];
+
+  // Logged in user's navabar items
+  const loggedInItems = [
+    { label: "Home" },
+    { label: "Cart" },
+    { label: "About" },
+  ];
 
   // Logged in navabar items for user
   const userItems = [{ label: "Previous Purchases" }, { label: "Logout" }];
@@ -16,7 +65,7 @@ const Navbar = () => {
   // Logged in navabar items for admin
   const adminItems = [{ label: "Manage Insurances" }, { label: "Logout" }];
 
-  if (isLoggedIn && role === "user") {
+  if (user !== null && !admins.includes(user.email)) {
     return (
       <AppNavBar
         overrides={{
@@ -28,7 +77,7 @@ const Navbar = () => {
           },
         }}
         title="Will's Insurance LLC"
-        mainItems={mainItems}
+        mainItems={loggedInItems}
         mapItemToNode={(item) => (
           <Fragment>
             {item.label === "Home" && (
@@ -61,19 +110,23 @@ const Navbar = () => {
               </Link>
             )}
             {item.label === "Logout" && (
-              <Link to="#!" style={{ textDecoration: "none", color: "black" }}>
+              <Link
+                to="#!"
+                style={{ textDecoration: "none", color: "black" }}
+                onClick={logout}
+              >
                 Logout
               </Link>
             )}
           </Fragment>
         )}
         userItems={userItems}
-        username="John Cramer"
-        usernameSubtitle="john.cramer@gmail.com"
-        userImgUrl="https://source.unsplash.com/user/erondu/700x400"
+        username={user.displayName}
+        usernameSubtitle={user.email}
+        userImgUrl={user.photoURL}
       />
     );
-  } else if (isLoggedIn && role === "admin") {
+  } else if (user !== null && admins.includes(user.email)) {
     return (
       <AppNavBar
         overrides={{
@@ -159,7 +212,11 @@ const Navbar = () => {
               </Link>
             )}
             {item.label === "Login" && (
-              <Link to="#!" style={{ textDecoration: "none", color: "white" }}>
+              <Link
+                to="#!"
+                style={{ textDecoration: "none", color: "white" }}
+                onClick={loginWithGoogle}
+              >
                 Login
               </Link>
             )}
