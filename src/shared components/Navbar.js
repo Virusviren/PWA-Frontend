@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { AppNavBar } from "baseui/app-nav-bar";
 import { Link } from "react-router-dom";
+import admins from "../utilities/admins";
 import firebase from "firebase";
 
 const Navbar = () => {
@@ -14,6 +15,7 @@ const Navbar = () => {
       .signInWithPopup(provider)
       .then((result) => {
         setUser(result.user);
+        window.location.replace("/");
       })
       .catch((error) => {});
   };
@@ -23,10 +25,10 @@ const Navbar = () => {
       .auth()
       .signOut()
       .then(() => {
-        // Sign out successful
+        window.location.replace("/");
       })
       .catch((error) => {
-        // An error happened.
+        window.location.replace("/");
       });
   };
 
@@ -41,10 +43,7 @@ const Navbar = () => {
     });
   }, []);
 
-  // Admins
-  const admins = ["xd@gmail.com"];
-
-  // Guest navabar items
+  // Guest navbar items
   const mainItems = [
     { label: "Home" },
     { label: "Login" },
@@ -52,20 +51,20 @@ const Navbar = () => {
     { label: "About" },
   ];
 
-  // Logged in user's navabar items
+  // Logged in user's navbar items
   const loggedInItems = [
     { label: "Home" },
     { label: "Cart" },
     { label: "About" },
   ];
 
-  // Logged in navabar items for user
+  // Logged in navbar items for user
   const userItems = [{ label: "Previous Purchases" }, { label: "Logout" }];
 
-  // Logged in navabar items for admin
+  // Logged in navbar items for admin
   const adminItems = [{ label: "Manage Insurances" }, { label: "Logout" }];
 
-  if (user !== null && !admins.includes(user.email)) {
+  if (user && !admins.includes(user.email)) {
     return (
       <AppNavBar
         overrides={{
@@ -126,7 +125,7 @@ const Navbar = () => {
         userImgUrl={user.photoURL}
       />
     );
-  } else if (user !== null && admins.includes(user.email)) {
+  } else if (user && admins.includes(user.email)) {
     return (
       <AppNavBar
         overrides={{
@@ -138,7 +137,7 @@ const Navbar = () => {
           },
         }}
         title="Will's Insurance LLC"
-        mainItems={mainItems}
+        mainItems={loggedInItems}
         mapItemToNode={(item) => (
           <Fragment>
             {item.label === "Home" && (
@@ -171,16 +170,20 @@ const Navbar = () => {
               </Link>
             )}
             {item.label === "Logout" && (
-              <Link to="#!" style={{ textDecoration: "none", color: "black" }}>
+              <Link
+                to="#!"
+                style={{ textDecoration: "none", color: "black" }}
+                onClick={logout}
+              >
                 Logout
               </Link>
             )}
           </Fragment>
         )}
         userItems={adminItems}
-        username="Rocky Balboa"
-        usernameSubtitle="rocky.balboa@gmail.com"
-        userImgUrl="https://source.unsplash.com/user/erondu/700x400"
+        username={user.displayName}
+        usernameSubtitle={user.email}
+        userImgUrl={user.photoURL}
       />
     );
   } else {
