@@ -36,7 +36,7 @@ const PurchaseInfo = ({ isOpen, setIsOpen, purchase }) => {
             <strong>Purchased On :</strong> 12th January, 2021
           </Cell>
           <Cell span={3} gridGaps={24}>
-            <strong>Valid Till :</strong> 12th January, 2022
+            <strong>Expires On :</strong> 12th January, 2022
           </Cell>
           <Cell span={3} gridGaps={24}>
             <strong>Transaction ID :</strong>{" "}
