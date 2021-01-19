@@ -3,8 +3,10 @@ import { AppNavBar } from "baseui/app-nav-bar";
 import { Link } from "react-router-dom";
 import admins from "../utilities/admins";
 import firebase from "firebase";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-const Navbar = () => {
+const Navbar = ({ cart }) => {
   const [user, setUser] = useState(null);
 
   const provider = new firebase.auth.GoogleAuthProvider();
@@ -89,7 +91,7 @@ const Navbar = () => {
                 to="/cart"
                 style={{ textDecoration: "none", color: "white" }}
               >
-                Cart (0)
+                Cart ({cart.items.length})
               </Link>
             )}
             {item.label === "About" && (
@@ -150,7 +152,7 @@ const Navbar = () => {
                 to="/cart"
                 style={{ textDecoration: "none", color: "white" }}
               >
-                Cart (0)
+                Cart ({cart.items.length})
               </Link>
             )}
             {item.label === "About" && (
@@ -211,7 +213,7 @@ const Navbar = () => {
                 to="/cart"
                 style={{ textDecoration: "none", color: "white" }}
               >
-                Cart (3)
+                Cart ({cart.items.length})
               </Link>
             )}
             {item.label === "Login" && (
@@ -238,4 +240,12 @@ const Navbar = () => {
   }
 };
 
-export default Navbar;
+Navbar.propTypes = {
+  cart: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  cart: state.cart,
+});
+
+export default connect(mapStateToProps)(Navbar);

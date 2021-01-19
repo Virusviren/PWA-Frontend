@@ -7,6 +7,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Client as Styletron } from "styletron-engine-atomic";
 import { Provider as StyletronProvider } from "styletron-react";
 import { LightTheme, BaseProvider } from "baseui";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 import "./App.css";
 import firebase from "firebase";
 
@@ -27,15 +29,17 @@ const engine = new Styletron();
 
 ReactDOM.render(
   <React.StrictMode>
-    <StyletronProvider value={engine}>
-      <BaseProvider theme={LightTheme}>
-        <Router>
-          <Navbar />
-          <App />
-          <Footer />
-        </Router>
-      </BaseProvider>
-    </StyletronProvider>
+    <Provider store={store}>
+      <StyletronProvider value={engine}>
+        <BaseProvider theme={LightTheme}>
+          <Router>
+            <Navbar />
+            <App />
+            <Footer />
+          </Router>
+        </BaseProvider>
+      </StyletronProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -9,8 +9,11 @@ import {
   ROLE,
 } from "baseui/modal";
 import { KIND as ButtonKind, SHAPE } from "baseui/button";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { addToCart } from "../../redux/actions/cartActions";
 
-const InsuranceDetails = ({ isOpen, setIsOpen, insurance }) => {
+const InsuranceDetails = ({ isOpen, setIsOpen, insurance, addToCart }) => {
   return (
     <Modal
       onClose={() => setIsOpen(false)}
@@ -51,6 +54,10 @@ const InsuranceDetails = ({ isOpen, setIsOpen, insurance }) => {
             },
           }}
           shape={SHAPE.pill}
+          onClick={() => {
+            addToCart(insurance);
+            setIsOpen(false);
+          }}
         >
           Add to cart
         </ModalButton>
@@ -59,4 +66,15 @@ const InsuranceDetails = ({ isOpen, setIsOpen, insurance }) => {
   );
 };
 
-export default InsuranceDetails;
+InsuranceDetails.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  setIsOpen: PropTypes.func.isRequired,
+  insurance: PropTypes.object.isRequired,
+  addToCart: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  cart: state.cart,
+});
+
+export default connect(mapStateToProps, { addToCart })(InsuranceDetails);
