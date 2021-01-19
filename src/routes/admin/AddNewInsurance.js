@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Modal,
   ModalBody,
@@ -13,8 +13,32 @@ import { Input } from "baseui/input";
 import { Textarea } from "baseui/textarea";
 import { Select } from "baseui/select";
 import { Grid, Cell } from "baseui/layout-grid";
+import PropTypes from "prop-types";
 
-const AddNewInsurance = ({ isOpen, setIsOpen }) => {
+const AddNewInsurance = ({ isOpen, setIsOpen, addInsurance, email }) => {
+  const [companyName, setCompanyName] = useState("");
+  const [insuranceName, setInsuranceName] = useState("");
+  const [companyLogoURL, setCompanyLogoURL] = useState("");
+  const [details, setDetails] = useState("");
+  const [price, setPrice] = useState("");
+  const [type, setType] = useState([]);
+
+  const handleSubmit = () => {
+    const data = {
+      companyName,
+      insuranceName,
+      companyLogoURL,
+      details,
+      type: type[0].insuranceValue,
+      price: parseFloat(price),
+      email,
+    };
+
+    addInsurance(data);
+
+    setIsOpen(false);
+  };
+
   return (
     <Modal
       onClose={() => setIsOpen(false)}
@@ -35,7 +59,10 @@ const AddNewInsurance = ({ isOpen, setIsOpen }) => {
               label="Company Name"
               caption="Please enter the company's name"
             >
-              <Input id="input-id" />
+              <Input
+                value={companyName}
+                onChange={(event) => setCompanyName(event.currentTarget.value)}
+              />
             </FormControl>
           </Cell>
           <Cell span={6}>
@@ -43,7 +70,12 @@ const AddNewInsurance = ({ isOpen, setIsOpen }) => {
               label="Company Logo URL"
               caption="Please enter the URL of the company's logo"
             >
-              <Input id="input-id" />
+              <Input
+                value={companyLogoURL}
+                onChange={(event) =>
+                  setCompanyLogoURL(event.currentTarget.value)
+                }
+              />
             </FormControl>
           </Cell>
           <Cell span={6}>
@@ -51,7 +83,12 @@ const AddNewInsurance = ({ isOpen, setIsOpen }) => {
               label="Insurance Name"
               caption="Please enter the insurance's name"
             >
-              <Input id="input-id" />
+              <Input
+                value={insuranceName}
+                onChange={(event) =>
+                  setInsuranceName(event.currentTarget.value)
+                }
+              />
             </FormControl>
           </Cell>
           <Cell span={6}>
@@ -59,7 +96,10 @@ const AddNewInsurance = ({ isOpen, setIsOpen }) => {
               label="Insurance Details"
               caption="Please enter all the necessary details for the insurance"
             >
-              <Textarea id="textarea-id" />
+              <Textarea
+                value={details}
+                onChange={(event) => setDetails(event.currentTarget.value)}
+              />
             </FormControl>
           </Cell>
           <Cell span={6}>
@@ -67,7 +107,11 @@ const AddNewInsurance = ({ isOpen, setIsOpen }) => {
               label="Insurance Price (PLN)"
               caption="Please enter the price of the insurance per year in PLN"
             >
-              <Input id="input-id" />
+              <Input
+                value={price}
+                onChange={(event) => setPrice(event.currentTarget.value)}
+                required
+              />
             </FormControl>
           </Cell>
           <Cell span={6}>
@@ -76,14 +120,25 @@ const AddNewInsurance = ({ isOpen, setIsOpen }) => {
               caption="Please select the type of insurance"
             >
               <Select
-                id="select-id"
                 options={[
-                  { id: "Health Insurance", type: "healthInsurance" },
-                  { id: "Life Insurance", type: "lifeInsurance" },
-                  { id: "Travel Insurance", type: "travelInsurance" },
+                  {
+                    insuranceType: "Health Insurance",
+                    insuranceValue: "Health Insurance",
+                  },
+                  {
+                    insuranceType: "Life Insurance",
+                    insuranceValue: "Life Insurance",
+                  },
+                  {
+                    insuranceType: "Travel Insurance",
+                    insuranceValue: "Travel Insurance",
+                  },
                 ]}
-                labelKey="id"
-                valueKey="type"
+                labelKey="insuranceType"
+                valueKey="insuranceValue"
+                onChange={({ value }) => setType(value)}
+                value={type}
+                required
               />
             </FormControl>
           </Cell>
@@ -109,15 +164,20 @@ const AddNewInsurance = ({ isOpen, setIsOpen }) => {
             },
           }}
           shape={SHAPE.pill}
-          onClick={() => {
-            setIsOpen(false);
-          }}
+          onClick={handleSubmit}
         >
           Submit
         </ModalButton>
       </ModalFooter>
     </Modal>
   );
+};
+
+AddNewInsurance.propTypes = {
+  addInsurance: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  setIsOpen: PropTypes.func.isRequired,
+  email: PropTypes.string.isRequired,
 };
 
 export default AddNewInsurance;

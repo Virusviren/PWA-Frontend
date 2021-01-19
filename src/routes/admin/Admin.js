@@ -12,9 +12,9 @@ import firebase from "firebase";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getUser } from "../../redux/actions/userActions";
-import { getAllInsurancesList } from "../../redux/actions/adminActions";
+import { addInsurance } from "../../redux/actions/adminActions";
 
-const Admin = ({ getUser, user, getAllInsurancesList, admin }) => {
+const Admin = ({ getUser, user, admin, addInsurance }) => {
   let currentUser = firebase.auth().currentUser;
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,8 +29,6 @@ const Admin = ({ getUser, user, getAllInsurancesList, admin }) => {
     };
 
     getUser(data);
-
-    getAllInsurancesList(currentUser.email);
 
     //eslint-disable-next-line
   }, []);
@@ -118,35 +116,66 @@ const Admin = ({ getUser, user, getAllInsurancesList, admin }) => {
                 Add a new insurance
               </Button>
             </div>
-            <AddNewInsurance isOpen={isOpen} setIsOpen={setIsOpen} />
-            {admin.insurances.insurances.length === 0 && (
-              <div style={{ margin: "0 50px 60px" }}>
+            <AddNewInsurance
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              addInsurance={addInsurance}
+              email={currentUser.email}
+            />
+            {admin.addInsuranceSuccess !== null && (
+              <div style={{ margin: "0 50px 30px" }}>
                 <Notification
                   overrides={{
                     Body: { style: { width: "auto" } },
                   }}
-                  kind={NotificationKind.info}
+                  kind={NotificationKind.positive}
                 >
-                  There are no insurances added to the system yet.
+                  {admin.addInsuranceSuccess.msg}
                 </Notification>
               </div>
             )}
-            {admin.insurances.insurances.length > 0 && (
-              <Fragment>
-                <div style={{ margin: "0 50px 30px" }}>
-                  <AllInsurances />
-                </div>
-                <div style={{ margin: "0 0 2% 37.5%" }}>
-                  <Pagination
-                    numPages={20}
-                    currentPage={currentPage}
-                    onPageChange={({ nextPage }) => {
-                      setCurrentPage(Math.min(Math.max(nextPage, 1), 20));
-                    }}
-                  />
-                </div>
-              </Fragment>
+            {admin.addInsuranceError !== null && (
+              <div style={{ margin: "0 50px 30px" }}>
+                <Notification
+                  overrides={{
+                    Body: { style: { width: "auto" } },
+                  }}
+                  kind={NotificationKind.negative}
+                >
+                  {admin.addInsuranceError.msg}
+                </Notification>
+              </div>
             )}
+            {admin.insurances !== null &&
+              admin.insurances.insurances.length === 0 && (
+                <div style={{ margin: "0 50px 60px" }}>
+                  <Notification
+                    overrides={{
+                      Body: { style: { width: "auto" } },
+                    }}
+                    kind={NotificationKind.info}
+                  >
+                    There are no insurances added to the system yet.
+                  </Notification>
+                </div>
+              )}
+            {admin.insurances !== null &&
+              admin.insurances.insurances.length > 0 && (
+                <Fragment>
+                  <div style={{ margin: "0 50px 30px" }}>
+                    <AllInsurances />
+                  </div>
+                  <div style={{ margin: "0 0 2% 37.5%" }}>
+                    <Pagination
+                      numPages={20}
+                      currentPage={currentPage}
+                      onPageChange={({ nextPage }) => {
+                        setCurrentPage(Math.min(Math.max(nextPage, 1), 20));
+                      }}
+                    />
+                  </div>
+                </Fragment>
+              )}
           </Fragment>
         )}
       </div>
@@ -161,8 +190,8 @@ const Admin = ({ getUser, user, getAllInsurancesList, admin }) => {
 Admin.propTypes = {
   user: PropTypes.object.isRequired,
   admin: PropTypes.object.isRequired,
-  getAllInsurancesList: PropTypes.func.isRequired,
   getUser: PropTypes.func.isRequired,
+  addInsurance: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -170,6 +199,7 @@ const mapStateToProps = (state) => ({
   admin: state.admin,
 });
 
-export default connect(mapStateToProps, { getUser, getAllInsurancesList })(
-  Admin
-);
+export default connect(mapStateToProps, {
+  getUser,
+  addInsurance,
+})(Admin);
