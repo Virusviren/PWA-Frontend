@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART } from "../types";
+import { ADD_TO_CART, CLEAR_CART, REMOVE_FROM_CART } from "../types";
 
 const initialState = {
   items: [],
@@ -21,6 +21,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         items: state.items.filter((item) => item !== action.payload),
+      };
+    }
+    case CLEAR_CART: {
+      return {
+        ...state,
+        items: [],
       };
     }
     default:

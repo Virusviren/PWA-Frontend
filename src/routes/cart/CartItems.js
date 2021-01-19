@@ -2,19 +2,60 @@ import React, { Fragment, useState } from "react";
 import { TableBuilder, TableBuilderColumn } from "baseui/table-semantic";
 import { SHAPE, SIZE } from "baseui/button";
 import { Button } from "baseui/button";
+import { Toast, KIND } from "baseui/toast";
 import Checkout from "./Checkout";
 import PropTypes from "prop-types";
+import firebase from "firebase";
+import admins from "../../utilities/admins";
 
-const CartItems = ({ cartItems, removeFromCart }) => {
+const CartItems = ({ cartItems, removeFromCart, clearCart }) => {
+  // Currently logged in user
+  let user = firebase.auth().currentUser;
+
+  // Toast trigger and message
+  const [triggerToast, setTriggerToast] = useState(false);
+  const [msg, setMsg] = useState("");
+
+  // Checkout form modal
   const [isOpen, setIsOpen] = useState(false);
 
+  // Shopping cart items
   const DATA = cartItems;
 
+  // Calculate total price for items in the cart
   const prices = cartItems.map((item) => item.price + 1);
   const total = prices.reduce((a, b) => a + b);
 
+  // Handle checkout process
+  const handleCheckout = () => {
+    if (user && !admins.includes(user.email)) {
+      setIsOpen(true);
+    } else if (user && admins.includes(user.email)) {
+      setMsg("You are not authorized to checkout.");
+      setTriggerToast(true);
+
+      setTimeout(() => {
+        setTriggerToast(false);
+        setMsg("");
+      }, 3000);
+    } else {
+      setMsg("Please login before checking out.");
+      setTriggerToast(true);
+
+      setTimeout(() => {
+        setTriggerToast(false);
+        setMsg("");
+      }, 3000);
+    }
+  };
+
   return (
     <Fragment>
+      {triggerToast && (
+        <div style={{ margin: "40px 32px 30px 0" }}>
+          <Toast kind={KIND.negative}>{msg}</Toast>
+        </div>
+      )}
       <TableBuilder data={DATA}>
         <TableBuilderColumn header="Serial No.">
           {(row) => row.serialNo}
@@ -66,6 +107,7 @@ const CartItems = ({ cartItems, removeFromCart }) => {
           }}
           shape={SHAPE.pill}
           style={{ margin: "0 20px" }}
+          onClick={clearCart}
         >
           Clear cart
         </Button>
@@ -79,9 +121,7 @@ const CartItems = ({ cartItems, removeFromCart }) => {
             },
           }}
           shape={SHAPE.pill}
-          onClick={() => {
-            setIsOpen(true);
-          }}
+          onClick={handleCheckout}
         >
           Proceed to checkout
         </Button>

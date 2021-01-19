@@ -8,7 +8,7 @@ import { Client as Styletron } from "styletron-engine-atomic";
 import { Provider as StyletronProvider } from "styletron-react";
 import { LightTheme, BaseProvider } from "baseui";
 import { Provider } from "react-redux";
-import store from "./redux/store";
+import { store } from "./redux/store";
 import "./App.css";
 import firebase from "firebase";
 

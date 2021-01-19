@@ -3,9 +3,9 @@ import { Notification } from "baseui/notification";
 import CartItems from "./CartItems";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { removeFromCart } from "../../redux/actions/cartActions";
+import { removeFromCart, clearCart } from "../../redux/actions/cartActions";
 
-const Cart = ({ cart, removeFromCart }) => {
+const Cart = ({ cart, removeFromCart, clearCart }) => {
   return (
     <div>
       <h1 style={{ margin: "40px 50px 30px" }}>Shopping Cart</h1>
@@ -22,7 +22,11 @@ const Cart = ({ cart, removeFromCart }) => {
       )}
       {cart.items.length > 0 && (
         <div style={{ margin: "40px 50px 60px" }}>
-          <CartItems cartItems={cart.items} removeFromCart={removeFromCart} />
+          <CartItems
+            cartItems={cart.items}
+            removeFromCart={removeFromCart}
+            clearCart={clearCart}
+          />
         </div>
       )}
     </div>
@@ -32,10 +36,11 @@ const Cart = ({ cart, removeFromCart }) => {
 Cart.propTypes = {
   cart: PropTypes.object.isRequired,
   removeFromCart: PropTypes.func.isRequired,
+  clearCart: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   cart: state.cart,
 });
 
-export default connect(mapStateToProps, { removeFromCart })(Cart);
+export default connect(mapStateToProps, { removeFromCart, clearCart })(Cart);
