@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react";
 import { TableBuilder, TableBuilderColumn } from "baseui/table-semantic";
 import { SHAPE, SIZE } from "baseui/button";
 import { Button } from "baseui/button";
-import { Toast, KIND } from "baseui/toast";
+import { Notification, KIND } from "baseui/notification";
 import Checkout from "./Checkout";
 import PropTypes from "prop-types";
 import firebase from "firebase";
@@ -52,8 +52,15 @@ const CartItems = ({ cartItems, removeFromCart, clearCart }) => {
   return (
     <Fragment>
       {triggerToast && (
-        <div style={{ margin: "40px 32px 30px 0" }}>
-          <Toast kind={KIND.negative}>{msg}</Toast>
+        <div style={{ margin: "0 0 30px" }}>
+          <Notification
+            kind={KIND.negative}
+            overrides={{
+              Body: { style: { width: "auto" } },
+            }}
+          >
+            {msg}
+          </Notification>
         </div>
       )}
       <TableBuilder data={DATA}>
