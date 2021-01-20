@@ -33,6 +33,8 @@ export const getUser = (data) => {
 
       if (admins.includes(data.email)) {
         dispatch(getAllInsurancesList(data.email));
+      } else {
+        dispatch(getPreviousPurchases(data.email));
       }
     } catch (error) {
       dispatch({ type: GET_USER_ERROR, payload: error.response.data });

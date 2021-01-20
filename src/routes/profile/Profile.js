@@ -8,14 +8,19 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import admins from "../../utilities/admins";
 import firebase from "firebase";
-import { getPreviousPurchases } from "../../redux/actions/userActions";
+import { getUser } from "../../redux/actions/userActions";
 
-const Profile = ({ getPreviousPurchases, user }) => {
+const Profile = ({ user }) => {
   let currentUser = firebase.auth().currentUser;
 
   // Initial API call
   useEffect(() => {
-    getPreviousPurchases(currentUser.email);
+    const data = {
+      fullName: currentUser.displayName,
+      email: currentUser.email,
+    };
+
+    getUser(data);
     //eslint-disable-next-line
   }, []);
 
