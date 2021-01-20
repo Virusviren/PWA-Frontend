@@ -10,6 +10,9 @@ import {
   UPDATE_INSURANCE_SUCCESS,
   UPDATE_INSURANCE_ERROR,
   UPDATE_INSURANCE_LOADING,
+  DELETE_INSURANCE_LOADING,
+  DELETE_INSURANCE_SUCCESS,
+  DELETE_INSURANCE_ERROR,
 } from "../types";
 
 // Get a list of all insurances in the system
@@ -101,6 +104,38 @@ export const updateInsurance = (data, insuranceId) => {
   };
 };
 
+// Delete an insurance
+export const deleteInsurance = (email, insuranceId) => {
+  return async (dispatch) => {
+    dispatch(deleteInsuranceLoading());
+
+    try {
+      const response = await axios({
+        method: "delete",
+        url: `https://wills-insurance-llc.herokuapp.com/api/admin/${insuranceId}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: { email: email },
+      });
+
+      dispatch({ type: DELETE_INSURANCE_SUCCESS, payload: response.data });
+
+      dispatch(getAllInsurancesList(email));
+
+      setTimeout(() => {
+        dispatch({ type: CLEAR_ACTION_RESULT });
+      }, 5000);
+    } catch (error) {
+      dispatch({ type: DELETE_INSURANCE_ERROR, payload: error.response.data });
+
+      setTimeout(() => {
+        dispatch({ type: CLEAR_ACTION_RESULT });
+      }, 5000);
+    }
+  };
+};
+
 const getAllInsurancesListLoading = () => {
   return { type: GET_INSURANCES_LIST_LOADING };
 };
@@ -111,4 +146,8 @@ const addNewInsuranceLoading = () => {
 
 const updateInsuranceLoading = () => {
   return { type: UPDATE_INSURANCE_LOADING };
+};
+
+const deleteInsuranceLoading = () => {
+  return { type: DELETE_INSURANCE_LOADING };
 };

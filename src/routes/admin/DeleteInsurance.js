@@ -10,7 +10,13 @@ import {
 } from "baseui/modal";
 import { KIND as ButtonKind, SHAPE } from "baseui/button";
 
-const DeleteInsurance = ({ isOpen, setIsOpen }) => {
+const DeleteInsurance = ({
+  isOpen,
+  setIsOpen,
+  deleteInsurance,
+  insurance,
+  email,
+}) => {
   return (
     <Modal
       onClose={() => setIsOpen(false)}
@@ -46,6 +52,7 @@ const DeleteInsurance = ({ isOpen, setIsOpen }) => {
           }}
           shape={SHAPE.pill}
           onClick={() => {
+            deleteInsurance(email, insurance._id);
             setIsOpen(false);
           }}
         >

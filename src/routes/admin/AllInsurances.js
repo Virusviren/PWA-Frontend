@@ -6,7 +6,12 @@ import InsuranceInfo from "./InsuranceInfo";
 import DeleteInsurance from "./DeleteInsurance";
 import moment from "moment";
 
-const AllInsurances = ({ insurances, email, updateInsurance }) => {
+const AllInsurances = ({
+  insurances,
+  email,
+  updateInsurance,
+  deleteInsurance,
+}) => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -130,6 +135,7 @@ const AllInsurances = ({ insurances, email, updateInsurance }) => {
               setIsOpen={setIsDeleteOpen}
               insurance={item}
               email={email}
+              deleteInsurance={deleteInsurance}
             />
           )
       )}

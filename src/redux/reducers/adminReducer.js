@@ -9,6 +9,9 @@ import {
   UPDATE_INSURANCE_LOADING,
   UPDATE_INSURANCE_SUCCESS,
   UPDATE_INSURANCE_ERROR,
+  DELETE_INSURANCE_LOADING,
+  DELETE_INSURANCE_SUCCESS,
+  DELETE_INSURANCE_ERROR,
 } from "../types";
 
 const initialState = {
@@ -21,6 +24,9 @@ const initialState = {
   updateInsuranceLoading: false,
   updateInsuranceSuccess: null,
   updateInsuranceError: null,
+  deleteInsuranceLoading: false,
+  deleteInsuranceSuccess: null,
+  deleteInsuranceError: null,
 };
 
 /* eslint import/no-anonymous-default-export: [2, {"allowArrowFunction": true}] */
@@ -34,6 +40,8 @@ export default (state = initialState, action) => {
         addInsuranceError: null,
         updateInsuranceSuccess: null,
         updateInsuranceError: null,
+        deleteInsuranceSuccess: null,
+        deleteInsuranceError: null,
       };
     }
     case GET_INSURANCES_LIST_LOADING: {
@@ -106,6 +114,30 @@ export default (state = initialState, action) => {
         updateInsuranceSuccess: null,
         updateInsuranceLoading: false,
         updateInsuranceError: action.payload,
+      };
+    }
+    case DELETE_INSURANCE_LOADING: {
+      return {
+        ...state,
+        deleteInsuranceLoading: true,
+        deleteInsuranceSuccess: null,
+        deleteInsuranceError: null,
+      };
+    }
+    case DELETE_INSURANCE_SUCCESS: {
+      return {
+        ...state,
+        deleteInsuranceSuccess: action.payload,
+        deleteInsuranceLoading: false,
+        deleteInsuranceError: null,
+      };
+    }
+    case DELETE_INSURANCE_ERROR: {
+      return {
+        ...state,
+        deleteInsuranceSuccess: null,
+        deleteInsuranceLoading: false,
+        deleteInsuranceError: action.payload,
       };
     }
     default:
