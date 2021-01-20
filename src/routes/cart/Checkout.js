@@ -14,8 +14,50 @@ import { Select } from "baseui/select";
 import { Grid, Cell } from "baseui/layout-grid";
 import { Checkbox, LABEL_PLACEMENT } from "baseui/checkbox";
 
-const Checkout = ({ isOpen, setIsOpen }) => {
-  const [checked, setChecked] = useState(false);
+const Checkout = ({
+  isOpen,
+  setIsOpen,
+  buyInsurance,
+  email,
+  total,
+  items,
+  clearCart,
+}) => {
+  const [tcAgree, setTCAgree] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [passportNumber, setPassportNumber] = useState("");
+  const [age, setAge] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [gender, setGender] = useState([]);
+  const [streetName, setStreetName] = useState("");
+  const [buildingNumber, setBuildingNumber] = useState("");
+  const [apartmentNumber, setApartmentNumber] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [city, setCity] = useState("");
+  const [region, setRegion] = useState("");
+
+  const handleConfirmAndPay = () => {
+    const data = {
+      fullName,
+      passportNumber,
+      gender: gender[0].genderValue,
+      age: parseInt(age),
+      mobileNumber,
+      streetName,
+      buildingNumber: parseInt(buildingNumber),
+      apartmentNumber: parseInt(apartmentNumber),
+      postalCode,
+      city,
+      region,
+      email,
+      total,
+      items,
+    };
+
+    buyInsurance(data, clearCart);
+
+    setIsOpen(false);
+  };
 
   return (
     <Modal
@@ -37,7 +79,10 @@ const Checkout = ({ isOpen, setIsOpen }) => {
               label="Full Name"
               caption="Please enter the insurer's full name"
             >
-              <Input id="input-id" />
+              <Input
+                value={fullName}
+                onChange={(event) => setFullName(event.currentTarget.value)}
+              />
             </FormControl>
           </Cell>
           <Cell span={6}>
@@ -45,12 +90,20 @@ const Checkout = ({ isOpen, setIsOpen }) => {
               label="Passport Number"
               caption="Please enter the passport number as seen on the insurer's passport"
             >
-              <Input id="input-id" />
+              <Input
+                value={passportNumber}
+                onChange={(event) =>
+                  setPassportNumber(event.currentTarget.value)
+                }
+              />
             </FormControl>
           </Cell>
           <Cell span={4}>
             <FormControl label="Age" caption="Please enter the insurer's age">
-              <Input id="input-id" />
+              <Input
+                value={age}
+                onChange={(event) => setAge(event.currentTarget.value)}
+              />
             </FormControl>
           </Cell>
           <Cell span={4}>
@@ -58,7 +111,10 @@ const Checkout = ({ isOpen, setIsOpen }) => {
               label="Mobile Number"
               caption="Please enter the insurer's mobile number"
             >
-              <Input id="input-id" />
+              <Input
+                value={mobileNumber}
+                onChange={(event) => setMobileNumber(event.currentTarget.value)}
+              />
             </FormControl>
           </Cell>
           <Cell span={4} gridGaps={2}>
@@ -69,12 +125,14 @@ const Checkout = ({ isOpen, setIsOpen }) => {
               <Select
                 id="select-id"
                 options={[
-                  { id: "Male", gender: "male" },
-                  { id: "Female", gender: "female" },
-                  { id: "Other", gender: "other" },
+                  { gender: "Male", genderValue: "Male" },
+                  { gender: "Female", genderValue: "Female" },
+                  { gender: "Other", genderValue: "Other" },
                 ]}
-                labelKey="id"
-                valueKey="gender"
+                labelKey="gender"
+                valueKey="genderValue"
+                onChange={({ value }) => setGender(value)}
+                value={gender}
               />
             </FormControl>
           </Cell>
@@ -83,35 +141,54 @@ const Checkout = ({ isOpen, setIsOpen }) => {
           </Cell>
           <Cell span={2}>
             <FormControl label="Street Name" caption="e.g. ul. Unicka">
-              <Input id="input-id" />
+              <Input
+                value={streetName}
+                onChange={(event) => setStreetName(event.currentTarget.value)}
+              />
             </FormControl>
           </Cell>
           <Cell span={2}>
             <FormControl label="Building Number" caption="e.g. 3">
-              <Input id="input-id" />
+              <Input
+                value={buildingNumber}
+                onChange={(event) =>
+                  setBuildingNumber(event.currentTarget.value)
+                }
+              />
             </FormControl>
           </Cell>
           <Cell span={2}>
-            <FormControl label="Apartment Number" caption="e.g. 75 D">
-              <Input id="input-id" />
+            <FormControl label="Apartment Number" caption="e.g. 75">
+              <Input
+                value={apartmentNumber}
+                onChange={(event) =>
+                  setApartmentNumber(event.currentTarget.value)
+                }
+              />
             </FormControl>
           </Cell>
           <Cell span={2}>
-            <FormControl
-              label="Post Code"
-              caption="e.g. 20-126, without dashes"
-            >
-              <Input id="input-id" />
+            <FormControl label="Post Code" caption="e.g. 20-126">
+              <Input
+                value={postalCode}
+                onChange={(event) => setPostalCode(event.currentTarget.value)}
+              />
             </FormControl>
           </Cell>
           <Cell span={2}>
             <FormControl label="City" caption="e.g. Lublin">
-              <Input id="input-id" />
+              <Input
+                value={city}
+                onChange={(event) => setCity(event.currentTarget.value)}
+              />
             </FormControl>
           </Cell>
           <Cell span={2} gridGaps={24}>
             <FormControl label="Region" caption="e.g. Lubelskie">
-              <Input id="input-id" />
+              <Input
+                value={region}
+                onChange={(event) => setRegion(event.currentTarget.value)}
+              />
             </FormControl>
           </Cell>
           <Cell span={12}>
@@ -120,8 +197,8 @@ const Checkout = ({ isOpen, setIsOpen }) => {
               caption="Please accept the terms and conditions to proceed"
             >
               <Checkbox
-                checked={checked}
-                onChange={(e) => setChecked(e.target.checked)}
+                checked={tcAgree}
+                onChange={(e) => setTCAgree(e.target.checked)}
                 labelPlacement={LABEL_PLACEMENT.right}
               >
                 I agree to the processing of my personal data, terms and
@@ -142,22 +219,49 @@ const Checkout = ({ isOpen, setIsOpen }) => {
         >
           Cancel
         </ModalButton>
-        <ModalButton
-          overrides={{
-            BaseButton: {
-              style: {
-                color: "white",
-                backgroundColor: "#4a4cb4",
+        {gender === [] ||
+        fullName === "" ||
+        passportNumber === "" ||
+        age === "" ||
+        mobileNumber === "" ||
+        streetName === "" ||
+        buildingNumber === "" ||
+        apartmentNumber === "" ||
+        postalCode === "" ||
+        city === "" ||
+        region === "" ||
+        tcAgree === false ? (
+          <ModalButton
+            overrides={{
+              BaseButton: {
+                style: {
+                  color: "white",
+                  backgroundColor: "#4a4cb4",
+                },
               },
-            },
-          }}
-          shape={SHAPE.pill}
-          onClick={() => {
-            setIsOpen(false);
-          }}
-        >
-          Confirm and Pay
-        </ModalButton>
+            }}
+            shape={SHAPE.pill}
+            onClick={handleConfirmAndPay}
+            disabled
+          >
+            Confirm and Pay
+          </ModalButton>
+        ) : (
+          <ModalButton
+            overrides={{
+              BaseButton: {
+                style: {
+                  color: "white",
+                  backgroundColor: "#4a4cb4",
+                },
+              },
+            }}
+            shape={SHAPE.pill}
+            onClick={handleConfirmAndPay}
+          >
+            Confirm and Pay
+          </ModalButton>
+        )}
       </ModalFooter>
     </Modal>
   );

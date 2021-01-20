@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import firebase from "firebase";
 import admins from "../../utilities/admins";
 
-const CartItems = ({ cartItems, removeFromCart, clearCart }) => {
+const CartItems = ({ cartItems, removeFromCart, clearCart, buyInsurance }) => {
   // Currently logged in user
   let user = firebase.auth().currentUser;
 
@@ -133,7 +133,15 @@ const CartItems = ({ cartItems, removeFromCart, clearCart }) => {
           Proceed to checkout
         </Button>
       </div>
-      <Checkout isOpen={isOpen} setIsOpen={setIsOpen} />
+      <Checkout
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        buyInsurance={buyInsurance}
+        email={user && user.email}
+        total={total}
+        items={cartItems}
+        clearCart={clearCart}
+      />
     </Fragment>
   );
 };
@@ -141,6 +149,7 @@ const CartItems = ({ cartItems, removeFromCart, clearCart }) => {
 CartItems.propTypes = {
   cartItems: PropTypes.array.isRequired,
   removeFromCart: PropTypes.func.isRequired,
+  buyInsurance: PropTypes.func.isRequired,
 };
 
 export default CartItems;

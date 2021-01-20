@@ -1,5 +1,13 @@
 import axios from "axios";
-import { GET_USER_LOADING, GET_USER_SUCCESS, GET_USER_ERROR } from "../types";
+import {
+  GET_USER_LOADING,
+  GET_USER_SUCCESS,
+  GET_USER_ERROR,
+  BUY_INSURANCE_LOADING,
+  BUY_INSURANCE_SUCCESS,
+  BUY_INSURANCE_ERROR,
+  CLEAR_ACTION_RESULT,
+} from "../types";
 import { getAllInsurancesList } from "./adminActions";
 import admins from "../../utilities/admins";
 
@@ -29,6 +37,42 @@ export const getUser = (data) => {
   };
 };
 
+// Confirm and pay
+export const buyInsurance = (data, clearCart) => {
+  return async (dispatch) => {
+    dispatch(buyInsuranceLoading());
+
+    try {
+      const response = await axios({
+        method: "post",
+        url: "https://wills-insurance-llc.herokuapp.com/api/user/buy",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      });
+
+      dispatch({ type: BUY_INSURANCE_SUCCESS, payload: response.data });
+
+      clearCart();
+
+      setTimeout(() => {
+        dispatch({ type: CLEAR_ACTION_RESULT });
+      }, 5000);
+    } catch (error) {
+      dispatch({ type: BUY_INSURANCE_ERROR, payload: error.response.data });
+
+      setTimeout(() => {
+        dispatch({ type: CLEAR_ACTION_RESULT });
+      }, 5000);
+    }
+  };
+};
+
 const getUserLoading = () => {
   return { type: GET_USER_LOADING };
+};
+
+const buyInsuranceLoading = () => {
+  return { type: BUY_INSURANCE_LOADING };
 };
