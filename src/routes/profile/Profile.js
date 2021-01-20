@@ -1,7 +1,6 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useEffect, Fragment } from "react";
 import PurchasesList from "./PurchasesList";
 import { Notification, KIND } from "baseui/notification";
-import { Pagination } from "baseui/pagination";
 import { Grid, Cell } from "baseui/layout-grid";
 import { ProgressBar } from "baseui/progress-bar";
 import { connect } from "react-redux";
@@ -13,8 +12,6 @@ import { getPreviousPurchases } from "../../redux/actions/userActions";
 
 const Profile = ({ getPreviousPurchases, user }) => {
   let currentUser = firebase.auth().currentUser;
-
-  const [currentPage, setCurrentPage] = useState(1);
 
   // Initial API call
   useEffect(() => {
@@ -89,22 +86,11 @@ const Profile = ({ getPreviousPurchases, user }) => {
               )}
             {user.getPreviousPurchasesSuccess !== null &&
               user.getPreviousPurchasesSuccess.purchases.length > 0 && (
-                <Fragment>
-                  <div style={{ margin: "0 50px 30px" }}>
-                    <PurchasesList
-                      purchases={user.getPreviousPurchasesSuccess.purchases}
-                    />
-                  </div>
-                  <div style={{ margin: "0 0 2% 37.5%" }}>
-                    <Pagination
-                      numPages={20}
-                      currentPage={currentPage}
-                      onPageChange={({ nextPage }) => {
-                        setCurrentPage(Math.min(Math.max(nextPage, 1), 20));
-                      }}
-                    />
-                  </div>
-                </Fragment>
+                <div style={{ margin: "0 50px 30px" }}>
+                  <PurchasesList
+                    purchases={user.getPreviousPurchasesSuccess.purchases}
+                  />
+                </div>
               )}
           </Fragment>
         )}
