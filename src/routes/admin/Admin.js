@@ -28,8 +28,54 @@ const Admin = ({
 }) => {
   let currentUser = firebase.auth().currentUser;
 
+  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageItems, setCurrentPageItems] = useState([]);
 
+  // Total number of pages
+  let totalPages =
+    admin.insurances !== null &&
+    Math.ceil(admin.insurances.insurances.length / 8);
+
+  // Final index of array to be sliced
+  const setEndingIndex = (currentPage) => {
+    let index = currentPage * 8;
+    return index;
+  };
+
+  // Starting index of array to be sliced
+  const setStartingIndex = (currentPage) => {
+    let index = currentPage * 8 - 8;
+    return index;
+  };
+
+  // Handle page change
+  const handlePageChange = ({ nextPage }) => {
+    setCurrentPageItems(
+      admin.insurances.insurances.slice(
+        setStartingIndex(nextPage),
+        setEndingIndex(nextPage)
+      )
+    );
+    setCurrentPage(Math.min(Math.max(nextPage, 1), totalPages));
+  };
+
+  // Check and split the jobs array
+  useEffect(
+    () => {
+      admin.insurances !== null &&
+        setCurrentPageItems(
+          admin.insurances.insurances.slice(
+            setStartingIndex(currentPage),
+            setEndingIndex(currentPage)
+          )
+        );
+    },
+    // eslint-disable-next-line
+    [admin.insurances]
+  );
+
+  // Modal open and close
   const [isOpen, setIsOpen] = useState(false);
 
   // Add or return a user
@@ -223,7 +269,7 @@ const Admin = ({
                 <Fragment>
                   <div style={{ margin: "0 50px 30px" }}>
                     <AllInsurances
-                      insurances={admin.insurances.insurances}
+                      insurances={currentPageItems}
                       email={currentUser.email}
                       updateInsurance={updateInsurance}
                       deleteInsurance={deleteInsurance}
@@ -231,11 +277,9 @@ const Admin = ({
                   </div>
                   <div style={{ margin: "0 0 2% 37.5%" }}>
                     <Pagination
-                      numPages={20}
+                      numPages={totalPages}
                       currentPage={currentPage}
-                      onPageChange={({ nextPage }) => {
-                        setCurrentPage(Math.min(Math.max(nextPage, 1), 20));
-                      }}
+                      onPageChange={handlePageChange}
                     />
                   </div>
                 </Fragment>
