@@ -37,6 +37,14 @@ const AddNewInsurance = ({ isOpen, setIsOpen, addInsurance, email }) => {
     addInsurance(data);
 
     setIsOpen(false);
+
+    // Reset form state
+    setCompanyLogoURL("");
+    setCompanyName("");
+    setInsuranceName("");
+    setDetails("");
+    setPrice("");
+    setType([]);
   };
 
   return (
@@ -110,7 +118,6 @@ const AddNewInsurance = ({ isOpen, setIsOpen, addInsurance, email }) => {
               <Input
                 value={price}
                 onChange={(event) => setPrice(event.currentTarget.value)}
-                required
               />
             </FormControl>
           </Cell>
@@ -138,7 +145,6 @@ const AddNewInsurance = ({ isOpen, setIsOpen, addInsurance, email }) => {
                 valueKey="insuranceValue"
                 onChange={({ value }) => setType(value)}
                 value={type}
-                required
               />
             </FormControl>
           </Cell>
@@ -154,20 +160,43 @@ const AddNewInsurance = ({ isOpen, setIsOpen, addInsurance, email }) => {
         >
           Cancel
         </ModalButton>
-        <ModalButton
-          overrides={{
-            BaseButton: {
-              style: {
-                color: "white",
-                backgroundColor: "#4a4cb4",
+        {type === [] ||
+        price === "" ||
+        companyLogoURL === "" ||
+        companyName === "" ||
+        details === "" ||
+        insuranceName === "" ? (
+          <ModalButton
+            overrides={{
+              BaseButton: {
+                style: {
+                  color: "white",
+                  backgroundColor: "#4a4cb4",
+                },
               },
-            },
-          }}
-          shape={SHAPE.pill}
-          onClick={handleSubmit}
-        >
-          Submit
-        </ModalButton>
+            }}
+            shape={SHAPE.pill}
+            onClick={handleSubmit}
+            disabled
+          >
+            Submit
+          </ModalButton>
+        ) : (
+          <ModalButton
+            overrides={{
+              BaseButton: {
+                style: {
+                  color: "white",
+                  backgroundColor: "#4a4cb4",
+                },
+              },
+            }}
+            shape={SHAPE.pill}
+            onClick={handleSubmit}
+          >
+            Submit
+          </ModalButton>
+        )}
       </ModalFooter>
     </Modal>
   );

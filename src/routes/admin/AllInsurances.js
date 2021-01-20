@@ -4,22 +4,20 @@ import { Button, SHAPE, SIZE } from "baseui/button";
 import EditInsurance from "./EditInsurance";
 import InsuranceInfo from "./InsuranceInfo";
 import DeleteInsurance from "./DeleteInsurance";
+import moment from "moment";
 
-import insurances from "../../fake json/homepage";
-
-const AllInsurances = () => {
+const AllInsurances = ({ insurances, email, updateInsurance }) => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+
+  const [modalId, setModalId] = useState("");
 
   const DATA = insurances;
 
   return (
     <Fragment>
       <TableBuilder data={DATA}>
-        <TableBuilderColumn header="Serial No.">
-          {(row) => row.serialNo}
-        </TableBuilderColumn>
         <TableBuilderColumn header="Company Name">
           {(row) => row.companyName}
         </TableBuilderColumn>
@@ -30,10 +28,10 @@ const AllInsurances = () => {
           {(row) => row.price}
         </TableBuilderColumn>
         <TableBuilderColumn header="Date Posted">
-          {(row) => row.postedOn}
+          {(row) => moment(row.postedOn).format("MMMM Do, YYYY")}
         </TableBuilderColumn>
         <TableBuilderColumn header="Last Updated">
-          {(row) => row.postedOn}
+          {(row) => moment(row.updatedOn).format("MMMM Do, YYYY")}
         </TableBuilderColumn>
         <TableBuilderColumn header="Edit">
           {(row) => (
@@ -50,6 +48,7 @@ const AllInsurances = () => {
               size={SIZE.mini}
               onClick={() => {
                 setIsEditOpen(true);
+                setModalId(row._id);
               }}
             >
               Edit
@@ -71,6 +70,7 @@ const AllInsurances = () => {
               size={SIZE.mini}
               onClick={() => {
                 setIsDetailsOpen(true);
+                setModalId(row._id);
               }}
             >
               Details
@@ -92,6 +92,7 @@ const AllInsurances = () => {
               size={SIZE.mini}
               onClick={() => {
                 setIsDeleteOpen(true);
+                setModalId(row._id);
               }}
             >
               Delete
@@ -99,9 +100,39 @@ const AllInsurances = () => {
           )}
         </TableBuilderColumn>
       </TableBuilder>
-      <EditInsurance isOpen={isEditOpen} setIsOpen={setIsEditOpen} />
-      <InsuranceInfo isOpen={isDetailsOpen} setIsOpen={setIsDetailsOpen} />
-      <DeleteInsurance isOpen={isDeleteOpen} setIsOpen={setIsDeleteOpen} />
+      {insurances.map(
+        (item) =>
+          item._id === modalId && (
+            <EditInsurance
+              isOpen={isEditOpen}
+              setIsOpen={setIsEditOpen}
+              insurance={item}
+              email={email}
+              updateInsurance={updateInsurance}
+            />
+          )
+      )}
+      {insurances.map(
+        (item) =>
+          item._id === modalId && (
+            <InsuranceInfo
+              isOpen={isDetailsOpen}
+              setIsOpen={setIsDetailsOpen}
+              insurance={item}
+            />
+          )
+      )}
+      {insurances.map(
+        (item) =>
+          item._id === modalId && (
+            <DeleteInsurance
+              isOpen={isDeleteOpen}
+              setIsOpen={setIsDeleteOpen}
+              insurance={item}
+              email={email}
+            />
+          )
+      )}
     </Fragment>
   );
 };

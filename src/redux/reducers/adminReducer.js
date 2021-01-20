@@ -6,6 +6,9 @@ import {
   ADD_INSURANCE_SUCCESS,
   ADD_INSURANCE_ERROR,
   CLEAR_ACTION_RESULT,
+  UPDATE_INSURANCE_LOADING,
+  UPDATE_INSURANCE_SUCCESS,
+  UPDATE_INSURANCE_ERROR,
 } from "../types";
 
 const initialState = {
@@ -15,6 +18,9 @@ const initialState = {
   addInsuranceLoading: false,
   addInsuranceSuccess: null,
   addInsuranceError: null,
+  updateInsuranceLoading: false,
+  updateInsuranceSuccess: null,
+  updateInsuranceError: null,
 };
 
 /* eslint import/no-anonymous-default-export: [2, {"allowArrowFunction": true}] */
@@ -26,6 +32,8 @@ export default (state = initialState, action) => {
         getAllInsurancesListError: null,
         addInsuranceSuccess: null,
         addInsuranceError: null,
+        updateInsuranceSuccess: null,
+        updateInsuranceError: null,
       };
     }
     case GET_INSURANCES_LIST_LOADING: {
@@ -74,6 +82,30 @@ export default (state = initialState, action) => {
         addInsuranceSuccess: null,
         addInsuranceLoading: false,
         addInsuranceError: action.payload,
+      };
+    }
+    case UPDATE_INSURANCE_LOADING: {
+      return {
+        ...state,
+        updateInsuranceLoading: true,
+        updateInsuranceSuccess: null,
+        updateInsuranceError: null,
+      };
+    }
+    case UPDATE_INSURANCE_SUCCESS: {
+      return {
+        ...state,
+        updateInsuranceSuccess: action.payload,
+        updateInsuranceLoading: false,
+        updateInsuranceError: null,
+      };
+    }
+    case UPDATE_INSURANCE_ERROR: {
+      return {
+        ...state,
+        updateInsuranceSuccess: null,
+        updateInsuranceLoading: false,
+        updateInsuranceError: action.payload,
       };
     }
     default:

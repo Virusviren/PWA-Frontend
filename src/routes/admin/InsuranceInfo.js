@@ -9,8 +9,9 @@ import {
   ROLE,
 } from "baseui/modal";
 import { KIND as ButtonKind, SHAPE } from "baseui/button";
+import moment from "moment";
 
-const InsuranceInfo = ({ isOpen, setIsOpen }) => {
+const InsuranceInfo = ({ isOpen, setIsOpen, insurance }) => {
   return (
     <Modal
       onClose={() => setIsOpen(false)}
@@ -21,20 +22,20 @@ const InsuranceInfo = ({ isOpen, setIsOpen }) => {
       size={SIZE.default}
       role={ROLE.dialog}
     >
-      <ModalHeader>Company Name</ModalHeader>
+      <ModalHeader>{insurance.companyName}</ModalHeader>
       <ModalBody>
         <h3>Company Logo</h3>
         <img
-          src="https://source.unsplash.com/user/erondu/700x400"
+          src={insurance.companyLogoURL}
           alt="company-logo"
           style={{ width: "100%" }}
         ></img>
-        <h3>Type : Health Insurance</h3>
-        <h3>Posted : 2 months ago</h3>
+        <h3>Type : {insurance.type}</h3>
+        <h3>Posted : {moment(insurance.postedOn).format("MMMM Do, YYYY")}</h3>
         <p style={{ margin: "25px auto" }}></p>
-        <h3>Insurance name</h3>
-        <p>Insurance details</p>
-        <h3>Price - 90 PLN per year</h3>
+        <h3>{insurance.insuranceName}</h3>
+        <p>{insurance.details}</p>
+        <h3>Price - {insurance.price} PLN per year</h3>
       </ModalBody>
       <ModalFooter>
         <ModalButton

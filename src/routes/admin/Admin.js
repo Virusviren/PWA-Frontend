@@ -12,9 +12,12 @@ import firebase from "firebase";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getUser } from "../../redux/actions/userActions";
-import { addInsurance } from "../../redux/actions/adminActions";
+import {
+  addInsurance,
+  updateInsurance,
+} from "../../redux/actions/adminActions";
 
-const Admin = ({ getUser, user, admin, addInsurance }) => {
+const Admin = ({ getUser, user, admin, addInsurance, updateInsurance }) => {
   let currentUser = firebase.auth().currentUser;
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -146,6 +149,30 @@ const Admin = ({ getUser, user, admin, addInsurance }) => {
                 </Notification>
               </div>
             )}
+            {admin.updateInsuranceSuccess !== null && (
+              <div style={{ margin: "0 50px 30px" }}>
+                <Notification
+                  overrides={{
+                    Body: { style: { width: "auto" } },
+                  }}
+                  kind={NotificationKind.positive}
+                >
+                  {admin.updateInsuranceSuccess.msg}
+                </Notification>
+              </div>
+            )}
+            {admin.updateInsuranceError !== null && (
+              <div style={{ margin: "0 50px 30px" }}>
+                <Notification
+                  overrides={{
+                    Body: { style: { width: "auto" } },
+                  }}
+                  kind={NotificationKind.negative}
+                >
+                  {admin.updateInsuranceError.msg}
+                </Notification>
+              </div>
+            )}
             {admin.insurances !== null &&
               admin.insurances.insurances.length === 0 && (
                 <div style={{ margin: "0 50px 60px" }}>
@@ -163,7 +190,11 @@ const Admin = ({ getUser, user, admin, addInsurance }) => {
               admin.insurances.insurances.length > 0 && (
                 <Fragment>
                   <div style={{ margin: "0 50px 30px" }}>
-                    <AllInsurances />
+                    <AllInsurances
+                      insurances={admin.insurances.insurances}
+                      email={currentUser.email}
+                      updateInsurance={updateInsurance}
+                    />
                   </div>
                   <div style={{ margin: "0 0 2% 37.5%" }}>
                     <Pagination
@@ -192,6 +223,7 @@ Admin.propTypes = {
   admin: PropTypes.object.isRequired,
   getUser: PropTypes.func.isRequired,
   addInsurance: PropTypes.func.isRequired,
+  updateInsurance: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -202,4 +234,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getUser,
   addInsurance,
+  updateInsurance,
 })(Admin);

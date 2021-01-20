@@ -7,6 +7,9 @@ import {
   ADD_INSURANCE_SUCCESS,
   ADD_INSURANCE_ERROR,
   CLEAR_ACTION_RESULT,
+  UPDATE_INSURANCE_SUCCESS,
+  UPDATE_INSURANCE_ERROR,
+  UPDATE_INSURANCE_LOADING,
 } from "../types";
 
 // Get a list of all insurances in the system
@@ -66,10 +69,46 @@ export const addInsurance = (data) => {
   };
 };
 
+// Update an insurance
+export const updateInsurance = (data, insuranceId) => {
+  return async (dispatch) => {
+    dispatch(updateInsuranceLoading());
+
+    try {
+      const response = await axios({
+        method: "patch",
+        url: `https://wills-insurance-llc.herokuapp.com/api/admin/${insuranceId}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      });
+
+      dispatch({ type: UPDATE_INSURANCE_SUCCESS, payload: response.data });
+
+      dispatch(getAllInsurancesList(data.email));
+
+      setTimeout(() => {
+        dispatch({ type: CLEAR_ACTION_RESULT });
+      }, 5000);
+    } catch (error) {
+      dispatch({ type: UPDATE_INSURANCE_ERROR, payload: error.response.data });
+
+      setTimeout(() => {
+        dispatch({ type: CLEAR_ACTION_RESULT });
+      }, 5000);
+    }
+  };
+};
+
 const getAllInsurancesListLoading = () => {
   return { type: GET_INSURANCES_LIST_LOADING };
 };
 
 const addNewInsuranceLoading = () => {
   return { type: ADD_INSURANCE_LOADING };
+};
+
+const updateInsuranceLoading = () => {
+  return { type: UPDATE_INSURANCE_LOADING };
 };
