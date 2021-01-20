@@ -2,7 +2,6 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Tabs, Tab, FILL } from "baseui/tabs-motion";
 import { Notification, KIND as NotificationKind } from "baseui/notification";
 import { ProgressBar } from "baseui/progress-bar";
-import { Pagination } from "baseui/pagination";
 import InsuranceList from "./InsuranceList";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -34,8 +33,6 @@ const Home = ({ getInsurances, guest }) => {
     );
 
   const [activeKey, setActiveKey] = useState(0);
-
-  const [currentPage, setCurrentPage] = useState(1);
 
   // Change insurance type tab
   const changeTab = ({ activeKey }) => {
@@ -115,15 +112,6 @@ const Home = ({ getInsurances, guest }) => {
                   )}
                 </Tab>
               </Tabs>
-            </div>
-            <div style={{ margin: "0 0 2% 37.5%" }}>
-              <Pagination
-                numPages={20}
-                currentPage={currentPage}
-                onPageChange={({ nextPage }) => {
-                  setCurrentPage(Math.min(Math.max(nextPage, 1), 20));
-                }}
-              />
             </div>
           </Fragment>
         )}
