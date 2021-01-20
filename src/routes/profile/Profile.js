@@ -117,4 +117,4 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps, { getPreviousPurchases })(Profile);
+export default connect(mapStateToProps)(Profile);
