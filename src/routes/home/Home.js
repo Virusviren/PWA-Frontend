@@ -38,7 +38,9 @@ const Home = ({ getInsurances, guest }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   // Change insurance type tab
-  const changeTab = ({ activeKey }) => setActiveKey(activeKey);
+  const changeTab = ({ activeKey }) => {
+    setActiveKey(activeKey);
+  };
 
   if (guest.getInsurancesLoading) {
     return (
@@ -98,17 +100,17 @@ const Home = ({ getInsurances, guest }) => {
                 }}
               >
                 <Tab title="Health Insurance">
-                  {guest.insurances !== null && activeKey === 0 && (
+                  {guest.insurances !== null && (
                     <InsuranceList insurances={healthInsurances} />
                   )}
                 </Tab>
                 <Tab title="Life Insurance">
-                  {guest.insurances !== null && activeKey === 1 && (
+                  {guest.insurances !== null && (
                     <InsuranceList insurances={lifeInsurances} />
                   )}
                 </Tab>
                 <Tab title="Travel Insurance">
-                  {guest.insurances !== null && activeKey === 2 && (
+                  {guest.insurances !== null && (
                     <InsuranceList insurances={travelInsurances} />
                   )}
                 </Tab>
