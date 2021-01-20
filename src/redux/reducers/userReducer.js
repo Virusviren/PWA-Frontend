@@ -6,6 +6,9 @@ import {
   GET_USER_LOADING,
   GET_USER_SUCCESS,
   CLEAR_ACTION_RESULT,
+  GET_PREVIOUS_PURCHASES_LOADING,
+  GET_PREVIOUS_PURCHASES_SUCCESS,
+  GET_PREVIOUS_PURCHASES_ERROR,
 } from "../types";
 
 const initialState = {
@@ -15,6 +18,9 @@ const initialState = {
   buyInsuranceLoading: false,
   buyInsuranceSuccess: null,
   buyInsuranceError: null,
+  getPreviousPurchasesLoading: false,
+  getPreviousPurchasesSuccess: null,
+  getPreviousPurchasesError: null,
 };
 
 /* eslint import/no-anonymous-default-export: [2, {"allowArrowFunction": true}] */
@@ -66,6 +72,30 @@ export default (state = initialState, action) => {
         buyInsuranceSuccess: null,
         buyInsuranceLoading: false,
         buyInsuranceError: action.payload,
+      };
+    }
+    case GET_PREVIOUS_PURCHASES_LOADING: {
+      return {
+        ...state,
+        getPreviousPurchasesLoading: true,
+        getPreviousPurchasesSuccess: null,
+        getPreviousPurchasesError: null,
+      };
+    }
+    case GET_PREVIOUS_PURCHASES_SUCCESS: {
+      return {
+        ...state,
+        getPreviousPurchasesSuccess: action.payload,
+        getPreviousPurchasesLoading: false,
+        getPreviousPurchasesError: null,
+      };
+    }
+    case GET_PREVIOUS_PURCHASES_ERROR: {
+      return {
+        ...state,
+        getPreviousPurchasesSuccess: null,
+        getPreviousPurchasesLoading: false,
+        getPreviousPurchasesError: action.payload,
       };
     }
     case CLEAR_ACTION_RESULT: {

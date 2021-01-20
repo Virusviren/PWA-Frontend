@@ -10,18 +10,20 @@ const Cart = ({ cart, removeFromCart, clearCart, buyInsurance, user }) => {
   return (
     <div>
       <h1 style={{ margin: "40px 50px 30px" }}>Shopping Cart</h1>
-      {cart.items.length <= 0 && user.buyInsuranceSuccess === null && (
-        <div style={{ margin: "40px 50px 60px" }}>
-          <Notification
-            overrides={{
-              Body: { style: { width: "auto" } },
-            }}
-          >
-            There are no items in your shopping cart!
-          </Notification>
-        </div>
-      )}
-      {user.buyInsuranceError !== null && (
+      {!user.buyInsuranceLoading &&
+        cart.items.length <= 0 &&
+        user.buyInsuranceSuccess === null && (
+          <div style={{ margin: "40px 50px 60px" }}>
+            <Notification
+              overrides={{
+                Body: { style: { width: "auto" } },
+              }}
+            >
+              There are no items in your shopping cart!
+            </Notification>
+          </div>
+        )}
+      {!user.buyInsuranceLoading && user.buyInsuranceError !== null && (
         <div style={{ margin: "40px 50px 30px" }}>
           <Notification
             overrides={{
@@ -33,7 +35,7 @@ const Cart = ({ cart, removeFromCart, clearCart, buyInsurance, user }) => {
           </Notification>
         </div>
       )}
-      {user.buyInsuranceSuccess !== null && (
+      {!user.buyInsuranceLoading && user.buyInsuranceSuccess !== null && (
         <div style={{ margin: "40px 50px 30px" }}>
           <Notification
             overrides={{
@@ -45,7 +47,20 @@ const Cart = ({ cart, removeFromCart, clearCart, buyInsurance, user }) => {
           </Notification>
         </div>
       )}
-      {cart.items.length > 0 && (
+      {user.buyInsuranceLoading && (
+        <div style={{ margin: "40px 50px 30px" }}>
+          <Notification
+            overrides={{
+              Body: { style: { width: "auto" } },
+            }}
+            kind={KIND.info}
+          >
+            Please wait while the payment is being made. Do not refresh this
+            page!
+          </Notification>
+        </div>
+      )}
+      {!user.buyInsuranceLoading && cart.items.length > 0 && (
         <div style={{ margin: "40px 50px 60px" }}>
           <CartItems
             cartItems={cart.items}

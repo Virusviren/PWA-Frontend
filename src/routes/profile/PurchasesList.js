@@ -2,31 +2,28 @@ import React, { useState, Fragment } from "react";
 import { TableBuilder, TableBuilderColumn } from "baseui/table-semantic";
 import { Button, SHAPE, SIZE } from "baseui/button";
 import PurchaseInfo from "./PurchaseInfo";
+import moment from "moment";
 
-import purchases from "../../fake json/profilepage";
-
-const PurchasesList = () => {
+const PurchasesList = ({ purchases }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [modalId, setModalId] = useState("");
 
   const DATA = purchases;
 
   return (
     <Fragment>
       <TableBuilder data={DATA}>
-        <TableBuilderColumn header="Serial No.">
-          {(row) => row.serialNumber}
+        <TableBuilderColumn header="Insurer's Full Name">
+          {(row) => row.fullName}
         </TableBuilderColumn>
-        <TableBuilderColumn header="Insurance Name">
-          {(row) => row.insuranceName}
+        <TableBuilderColumn header="Transaction ID">
+          {(row) => row.transactionId}
         </TableBuilderColumn>
-        <TableBuilderColumn header="Insurance Type">
-          {(row) => row.insuranceType}
-        </TableBuilderColumn>
-        <TableBuilderColumn header="Price (PLN)">
-          {(row) => row.price}
+        <TableBuilderColumn header="Amount Paid (PLN)">
+          {(row) => row.total}
         </TableBuilderColumn>
         <TableBuilderColumn header="Purchase Date">
-          {(row) => row.purchasedOn}
+          {(row) => moment(row.purchasedOn).format("MMMM Do, YYYY")}
         </TableBuilderColumn>
         <TableBuilderColumn header="Details">
           {(row) => (
@@ -44,6 +41,7 @@ const PurchasesList = () => {
               style={{ margin: "0 20px" }}
               onClick={() => {
                 setIsOpen(true);
+                setModalId(row._id);
               }}
             >
               Details
@@ -51,7 +49,16 @@ const PurchasesList = () => {
           )}
         </TableBuilderColumn>
       </TableBuilder>
-      <PurchaseInfo isOpen={isOpen} setIsOpen={setIsOpen} purchase={""} />
+      {purchases.map(
+        (purchase) =>
+          purchase._id === modalId && (
+            <PurchaseInfo
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              purchase={purchase}
+            />
+          )
+      )}
     </Fragment>
   );
 };

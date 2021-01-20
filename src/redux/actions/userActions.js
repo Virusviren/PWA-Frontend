@@ -6,6 +6,9 @@ import {
   BUY_INSURANCE_LOADING,
   BUY_INSURANCE_SUCCESS,
   BUY_INSURANCE_ERROR,
+  GET_PREVIOUS_PURCHASES_LOADING,
+  GET_PREVIOUS_PURCHASES_ERROR,
+  GET_PREVIOUS_PURCHASES_SUCCESS,
   CLEAR_ACTION_RESULT,
 } from "../types";
 import { getAllInsurancesList } from "./adminActions";
@@ -69,10 +72,42 @@ export const buyInsurance = (data, clearCart) => {
   };
 };
 
+// Get a list of all insurances in the system
+export const getPreviousPurchases = (email) => {
+  return async (dispatch) => {
+    dispatch(getPreviousPurchasesLoading());
+
+    try {
+      const response = await axios({
+        method: "post",
+        url: "https://wills-insurance-llc.herokuapp.com/api/user/purchases",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: { email: email },
+      });
+
+      dispatch({
+        type: GET_PREVIOUS_PURCHASES_SUCCESS,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_PREVIOUS_PURCHASES_ERROR,
+        payload: error.response.data,
+      });
+    }
+  };
+};
+
 const getUserLoading = () => {
   return { type: GET_USER_LOADING };
 };
 
 const buyInsuranceLoading = () => {
   return { type: BUY_INSURANCE_LOADING };
+};
+
+const getPreviousPurchasesLoading = () => {
+  return { type: GET_PREVIOUS_PURCHASES_LOADING };
 };
