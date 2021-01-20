@@ -12,7 +12,7 @@ import { store } from "./redux/store";
 import "./App.css";
 import firebase from "firebase";
 
-import * as serviceWorker from "./serviceWorker";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -46,4 +46,4 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
-serviceWorker.register();
+serviceWorkerRegistration.unregister();
