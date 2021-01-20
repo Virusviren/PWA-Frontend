@@ -2,9 +2,7 @@ import React from "react";
 import Insurance from "./Insurance";
 import { Grid, Cell } from "baseui/layout-grid";
 
-import insurances from "../../fake json/homepage";
-
-const InsuranceList = () => {
+const InsuranceList = ({ insurances }) => {
   let row1 = insurances.slice(0, 4);
   let row2 = insurances.slice(4, 8);
 

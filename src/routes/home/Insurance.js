@@ -19,7 +19,7 @@ const Insurance = ({ insurance }) => {
           style: { height: "70px" },
         },
       }}
-      headerImage={insurance.imageURL}
+      headerImage={insurance.companyLogoURL}
       title={insurance.companyName}
     >
       <StyledBody>

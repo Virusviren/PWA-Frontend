@@ -28,7 +28,7 @@ const Admin = ({
 }) => {
   let currentUser = firebase.auth().currentUser;
 
-  // Pagination
+  // ------------------- Pagination ------------------- //
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageItems, setCurrentPageItems] = useState([]);
 
@@ -60,7 +60,7 @@ const Admin = ({
     setCurrentPage(Math.min(Math.max(nextPage, 1), totalPages));
   };
 
-  // Check and split the jobs array
+  // Check and split the insurances array
   useEffect(
     () => {
       admin.insurances !== null &&
@@ -75,10 +75,10 @@ const Admin = ({
     [admin.insurances]
   );
 
-  // Modal open and close
+  // ------------------- Modal open or close ------------------- //
   const [isOpen, setIsOpen] = useState(false);
 
-  // Add or return a user
+  // ------------------- Add or return user ------------------- //
   useEffect(() => {
     const data = {
       fullName: currentUser.displayName,
