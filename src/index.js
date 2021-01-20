@@ -12,8 +12,6 @@ import { store } from "./redux/store";
 import "./App.css";
 import firebase from "firebase";
 
-import * as serviceWorker from "./serviceWorker";
-
 // Firebase configuration
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,
@@ -45,5 +43,3 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 );
-
-serviceWorker.register();
