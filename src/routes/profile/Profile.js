@@ -22,7 +22,7 @@ const Profile = ({ user }) => {
 
     getUser(data);
     //eslint-disable-next-line
-  }, []);
+  }, [user]);
 
   if (user.getPreviousPurchasesLoading || user.getUserLoading) {
     return (
