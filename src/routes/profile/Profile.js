@@ -10,7 +10,7 @@ import admins from "../../utilities/admins";
 import firebase from "firebase";
 import { getUser } from "../../redux/actions/userActions";
 
-const Profile = ({ user }) => {
+const Profile = ({ user, getUser }) => {
   let currentUser = firebase.auth().currentUser;
 
   // Initial API call
@@ -22,7 +22,7 @@ const Profile = ({ user }) => {
 
     getUser(data);
     //eslint-disable-next-line
-  }, [currentUser]);
+  }, []);
 
   if (user.getPreviousPurchasesLoading || user.getUserLoading) {
     return (
@@ -110,11 +110,11 @@ const Profile = ({ user }) => {
 
 Profile.propTypes = {
   user: PropTypes.object.isRequired,
-  getPreviousPurchases: PropTypes.func.isRequired,
+  getUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps, { getUser })(Profile);
